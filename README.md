@@ -6,7 +6,7 @@ Projekt wizytówki/portfolio w React Native i Expo Router
 
 ```bash
 npm install
-npx expo start -c
+npx expo start
 ```
 
 ## Co zawiera
