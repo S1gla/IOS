@@ -9,6 +9,7 @@ export type Profile = {
   technologies: string[];
   email: string;
   phone: string;
+  avatar: string;
 };
 
 const defaultProfile: Profile = {
@@ -20,6 +21,7 @@ const defaultProfile: Profile = {
   technologies: ['React.js', 'Node.js', 'TypeScript', 'JavaScript', 'Python'],
   email: 'mail@mail.com',
   phone: '123 456 789',
+  avatar: 'https://thumbs.dreamstime.com/b/random-photo-unfamiliar-dog-very-beautiful-random-photo-unfamiliar-dog-very-beautiful-337696951.jpg',
 };
 
 type ProfileContextValue = {
