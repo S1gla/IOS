@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { BigTitle, HeaderIcons, Screen, colors } from '../components/Layout';
 import { Profile, useProfile } from '../context/ProfileContext';
 
@@ -14,6 +14,7 @@ export default function AboutScreen() {
     technologies: profile.technologies.join(', '),
     email: profile.email,
     phone: profile.phone,
+    avatar: profile.avatar,
   });
 
   function startEdit() {
@@ -25,6 +26,7 @@ export default function AboutScreen() {
       technologies: profile.technologies.join(', '),
       email: profile.email,
       phone: profile.phone,
+      avatar: profile.avatar,
     });
     setEditing(true);
   }
@@ -54,6 +56,7 @@ export default function AboutScreen() {
         .filter(Boolean),
       email: form.email.trim(),
       phone: form.phone.trim(),
+      avatar: form.avatar.trim() || profile.avatar,
     };
 
     updateProfile(nextProfile);
@@ -99,7 +102,16 @@ export default function AboutScreen() {
 
         <Text style={styles.label}>TELEFON</Text>
         <TextInput style={styles.input} value={form.phone} onChangeText={(value) => setForm({ ...form, phone: value })} keyboardType="phone-pad" />
-
+        
+        <Text style={styles.label}>LINK DO ZDJĘCIA PROFILOWEGO</Text>
+        <TextInput
+          style={styles.input}
+          value={form.avatar}
+          onChangeText={(value) => setForm({ ...form, avatar: value })}
+          autoCapitalize="none"
+          placeholder="https://..."
+          placeholderTextColor={colors.muted}
+        />
         <TouchableOpacity style={styles.primaryButton} onPress={saveProfile}>
           <Text style={styles.primaryButtonText}>Zapisz profil</Text>
         </TouchableOpacity>
@@ -114,6 +126,11 @@ export default function AboutScreen() {
     <Screen>
       <HeaderIcons />
       <Text style={styles.smallLabel}>Portfolio</Text>
+      
+      <View style={styles.avatarWrap}>
+      <Image source={{ uri: profile.avatar }} style={styles.avatar} />
+      </View>
+      
       <BigTitle>O Mnie</BigTitle>
       <Text style={styles.paragraph}>{profile.description}</Text>
 
@@ -144,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     letterSpacing: 1,
-    marginBottom: 4,
+    marginBottom: 16,
   },
   paragraph: {
     color: colors.text,
@@ -243,4 +260,16 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '800',
   },
+  avatarWrap: {
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  avatar: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    backgroundColor: colors.card,
+    borderWidth: 3,
+    borderColor: colors.accent,
+},
 });
