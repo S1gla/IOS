@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { BigTitle, HeaderIcons, Screen, colors } from '../components/Layout';
 import { Profile, useProfile } from '../context/ProfileContext';
 
@@ -64,63 +64,71 @@ export default function AboutScreen() {
     Alert.alert('Zapisano', 'Profil został zaktualizowany.');
   }
 
-  if (editing) {
-    return (
-      <Screen>
-        <HeaderIcons />
-        <BigTitle compact>Edytuj profil</BigTitle>
-        <Text style={styles.formHint}>Zmiany są zapisywane lokalnie w AsyncStorage.</Text>
+if (editing) {
+  return (
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: colors.background }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+        <Screen>
+          <HeaderIcons />
+          <BigTitle compact>Edytuj profil</BigTitle>
+          <Text style={styles.formHint}>Zmiany są zapisywane lokalnie w AsyncStorage.</Text>
 
-        <Text style={styles.label}>IMIĘ</Text>
-        <TextInput style={styles.input} value={form.firstName} onChangeText={(value) => setForm({ ...form, firstName: value })} />
+          <Text style={styles.label}>IMIĘ</Text>
+          <TextInput style={styles.input} value={form.firstName} onChangeText={(value) => setForm({ ...form, firstName: value })} />
 
-        <Text style={styles.label}>NAZWISKO</Text>
-        <TextInput style={styles.input} value={form.lastName} onChangeText={(value) => setForm({ ...form, lastName: value })} />
+          <Text style={styles.label}>NAZWISKO</Text>
+          <TextInput style={styles.input} value={form.lastName} onChangeText={(value) => setForm({ ...form, lastName: value })} />
 
-        <Text style={styles.label}>OPIS</Text>
-        <TextInput
-          style={[styles.input, styles.textArea]}
-          value={form.description}
-          onChangeText={(value) => setForm({ ...form, description: value })}
-          multiline
-        />
+          <Text style={styles.label}>OPIS</Text>
+          <TextInput
+            style={[styles.input, styles.textArea]}
+            value={form.description}
+            onChangeText={(value) => setForm({ ...form, description: value })}
+            multiline
+          />
 
-        <Text style={styles.label}>DOŚWIADCZENIE</Text>
-        <TextInput style={styles.input} value={form.experience} onChangeText={(value) => setForm({ ...form, experience: value })} />
+          <Text style={styles.label}>DOŚWIADCZENIE</Text>
+          <TextInput style={styles.input} value={form.experience} onChangeText={(value) => setForm({ ...form, experience: value })} />
 
-        <Text style={styles.label}>TECHNOLOGIE, PO PRZECINKU</Text>
-        <TextInput style={styles.input} value={form.technologies} onChangeText={(value) => setForm({ ...form, technologies: value })} />
+          <Text style={styles.label}>TECHNOLOGIE, PO PRZECINKU</Text>
+          <TextInput style={styles.input} value={form.technologies} onChangeText={(value) => setForm({ ...form, technologies: value })} />
 
-        <Text style={styles.label}>EMAIL</Text>
-        <TextInput
-          style={styles.input}
-          value={form.email}
-          onChangeText={(value) => setForm({ ...form, email: value })}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
+          <Text style={styles.label}>EMAIL</Text>
+          <TextInput
+            style={styles.input}
+            value={form.email}
+            onChangeText={(value) => setForm({ ...form, email: value })}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
 
-        <Text style={styles.label}>TELEFON</Text>
-        <TextInput style={styles.input} value={form.phone} onChangeText={(value) => setForm({ ...form, phone: value })} keyboardType="phone-pad" />
-        
-        <Text style={styles.label}>LINK DO ZDJĘCIA PROFILOWEGO</Text>
-        <TextInput
-          style={styles.input}
-          value={form.avatar}
-          onChangeText={(value) => setForm({ ...form, avatar: value })}
-          autoCapitalize="none"
-          placeholder="https://..."
-          placeholderTextColor={colors.muted}
-        />
-        <TouchableOpacity style={styles.primaryButton} onPress={saveProfile}>
-          <Text style={styles.primaryButtonText}>Zapisz profil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.secondaryButton} onPress={() => setEditing(false)}>
-          <Text style={styles.secondaryButtonText}>Anuluj</Text>
-        </TouchableOpacity>
-      </Screen>
-    );
-  }
+          <Text style={styles.label}>TELEFON</Text>
+          <TextInput style={styles.input} value={form.phone} onChangeText={(value) => setForm({ ...form, phone: value })} keyboardType="phone-pad" />
+
+          <Text style={styles.label}>LINK DO ZDJĘCIA PROFILOWEGO</Text>
+          <TextInput
+            style={styles.input}
+            value={form.avatar}
+            onChangeText={(value) => setForm({ ...form, avatar: value })}
+            autoCapitalize="none"
+            placeholder="https://..."
+            placeholderTextColor={colors.muted}
+          />
+
+          <TouchableOpacity style={styles.primaryButton} onPress={saveProfile}>
+            <Text style={styles.primaryButtonText}>Zapisz profil</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.secondaryButton} onPress={() => setEditing(false)}>
+            <Text style={styles.secondaryButtonText}>Anuluj</Text>
+          </TouchableOpacity>
+        </Screen>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
+}
 
   return (
     <Screen>
